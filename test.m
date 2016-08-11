@@ -13,8 +13,8 @@ addpath(genpath('./../../manopt/'))
 N = 10; % num rows
 M = 10; % num cols
 lambda = 10;
-rho = 25;
-
+rho = 20;
+rng(42);
 %% set a simple data term: f(x) = 0.5*|AX-B|_F^2
 A = rand(N);
 B = rand(N,M);
@@ -34,7 +34,7 @@ functions.dfun_v = 1;
 %% set the l2 term for the Z parameter replacement
 functions.fun_h = @(X,Z,U)0.5*sum( sum( ( Z - functions.fun_v(X) - U).^2 ) );  
 functions.dhdx = @(X,Z,U)functions.dfun_v' * (functions.fun_v(X)+U-Z)
-functions.dhdz = @(X,Z,U)Z- functions.dfun_v -U
+functions.dhdz = @(X,Z,U)Z - functions.dfun_v - U
 
 %% check grad
 % Z = rand(N,M);
@@ -51,7 +51,7 @@ params.lambda = lambda;
 params.rho = rho;
 params.manifold = euclideanfactory(N, M);
 params.is_plot = 1;
-params.max_iter = 250;
+params.max_iter = 50;
 madmm_l21(x0,functions,params)
 
 
