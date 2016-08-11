@@ -1,8 +1,7 @@
 function madmm_l21(x0,functions,params)
 
-% set reg term: g(x) = |X|_2,1 (sum of norm over columns)
-functions.fun_g = @(Z)sum(sqrt(sum(Z.^2,1)));
-
+% set reg term: g(x) = |v(X)|_2,1 (sum of norm over columns)
+functions.fun_g = @(Z)sum(sqrt(sum(functions.fun_v(Z).^2,1)));
 
 T = params.max_iter; %number of iterations
 
@@ -27,7 +26,7 @@ for step = 1:T
     
     keep_cost(step) = original_cost(X);    
         
-    if params.is_plot, addpoints(fig,step,keep_cost(step)); pause(1); end
+    if params.is_plot, addpoints(fig,step,keep_cost(step)); drawnow(); end
 
     
     disp(['cost: ' num2str(keep_cost(step))]);
