@@ -13,7 +13,7 @@ addpath(genpath('./../../manopt/'))
 N = 10; % num rows
 M = 10; % num cols
 lambda = 10;
-rho = 20;
+rho = 50;
 rng(42);
 %% set a simple data term: f(x) = 0.5*|AX-B|_F^2
 A = rand(N);
