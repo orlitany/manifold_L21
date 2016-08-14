@@ -12,8 +12,8 @@ addpath(genpath('./../../manopt/'))
 %% params:
 N = 10; % num rows
 M = 10; % num cols
-lambda = 10;
-rho = 50;
+lambda = 5;
+rho = 20;
 rng(42);
 %% set a simple data term: f(x) = 0.5*|AX-B|_F^2
 A = rand(N);
@@ -48,12 +48,15 @@ functions.dhdx = @(X,Z,U)functions.dfun_v(X) * (functions.fun_v(X)+U-Z)
 % checkgradient(problem);
 
 %% run the madmm_l21 function
-x0 = rand(N,M);
+x0 = eye(N);%rand(N,M);
 params.lambda = lambda;
 params.rho = rho;
-params.manifold = euclideanfactory(N, M);
+params.manifold = stiefelfactory(N, M);
 params.is_plot = 1;
-params.max_iter = 50;
-madmm_l21(x0,functions,params)
+params.max_iter = 100;
+X_out = madmm_l21(x0,functions,params);
+
+%% show result
+figure, subplot(121); imagesc(F*x0); subplot(122); imagesc(F*X_out)
 
 

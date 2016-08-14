@@ -1,4 +1,4 @@
-function madmm_l21(x0,functions,params)
+function X = madmm_l21(x0,functions,params)
 
 % set reg term: g(x) = |v(X)|_2,1 (sum of norm over columns)
 functions.fun_g = @(Z)sum(sqrt(sum(functions.fun_v(Z).^2,1)));
@@ -57,7 +57,7 @@ for step = 1:T
 end
 
 
-if params.is_plot, figure, subplot(121), imagesc(x0), subplot(122), imagesc(X); colormap; end
+if params.is_plot, figure, subplot(121),colormap, imagesc(x0), subplot(122), imagesc(X); colormap; end
 
 
 end
