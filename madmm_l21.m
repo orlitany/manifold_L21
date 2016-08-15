@@ -8,14 +8,16 @@ T = params.max_iter; %number of iterations
 % set the manifold type
 problem.M = params.manifold;
 options.verbosity = 0;
+if isfield(params,'manopt_maxiter'), options.maxiter = params.manopt_maxiter; end;
 
 % set the "shrinkage" parameter
 c = params.lambda / params.rho;
 
 
 X = x0;
-Z = X;
+Z = functions.fun_v(x0);
 U = zeros(size(Z));
+
 
 original_cost = @(x)functions.fun_f(x) + params.lambda*functions.fun_g(x)
 keep_cost = zeros(T,1);
@@ -37,6 +39,7 @@ for step = 1:T
     problem.cost = @(x)functions.fun_f(x) + params.rho*functions.fun_h(x,Z,U);
     problem.egrad = @(x)functions.dfun_f(x) + params.rho*functions.dhdx(x,Z,U);
     % checkgradient(problem);
+
     
     X = conjugategradient(problem,X,options);
     
